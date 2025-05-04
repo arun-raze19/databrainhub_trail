@@ -1,0 +1,72 @@
+//create user
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name" : "teachers",
+    "email": "teachers@gmail.com",
+    "password": "123456",
+    "confPassword":"123456",
+    "role" : "admin"
+}
+
+###
+//get all the users
+GET http://localhost:5000/users
+
+###
+//get specific user
+GET http://localhost:5000/users/4a027a68-53b1-4889-89c8-b3d562518ede
+
+
+###
+//update the user
+PATCH  http://localhost:5000/users/4a027a68-53b1-4889-89c8-b3d562518ede
+Content-Type: application/json
+
+{
+    "name" : "mecstudent Updated ",
+    "email": "mecstudent@gmail.com",
+    "password": "",
+    "confPassword":"",
+    "role" : "user"
+}
+
+###
+DELETE   http://localhost:5000/users/cf408eac-e3c4-4eeb-b9d5-92dac2a71df0
+
+###
+//login user
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+   
+    "email": "teachers@gmail.com",
+    "password": "123456"
+}
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+   
+    "email": "mecteacher@gmail.com",
+    "password": "123456"
+}
+
+###
+GET http://localhost:5000/me
+
+###
+DELETE  http://localhost:5000/logout
+
+###
+
+
+POST http://localhost:5000/chat
+
+{
+    "message": "Hello"
+}
