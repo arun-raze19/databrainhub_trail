@@ -3,12 +3,21 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Load environment variables
 dotenv.config();
 
+// Get directory path for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Initialize express app
 const app = express();
+
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Configure middleware
 app.use(cors({
@@ -42,20 +51,24 @@ const messageSchema = new mongoose.Schema({
 });
 
 // Define routes
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.get('/api', (req, res) => {
   res.json({ message: "DataBrainHub API is working" });
 });
 
 // User authentication routes
-app.post('/api/login', async (req, res) => {
+app.post('/login', async (req, res) => {
   try {
     await connectToMongoDB();
-    
+
     // Your login logic here
     const { email, password } = req.body;
-    
+
     // This is a placeholder - replace with your actual login logic
-    res.json({ 
+    res.json({
       name: email.split('@')[0],
       email: email,
       role: "user"
@@ -66,10 +79,10 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.get('/api/me', async (req, res) => {
+app.get('/me', async (req, res) => {
   try {
     // Simplified user info endpoint
-    res.json({ 
+    res.json({
       name: "demo_user",
       email: "demo@example.com",
       role: "user"
@@ -80,12 +93,12 @@ app.get('/api/me', async (req, res) => {
   }
 });
 
-app.delete('/api/logout', (req, res) => {
+app.delete('/logout', (req, res) => {
   res.json({ msg: "Logged out successfully" });
 });
 
 // Message routes
-app.get('/api/get-messages', async (req, res) => {
+app.get('/get-messages', async (req, res) => {
   try {
     await connectToMongoDB();
     const Message = mongoose.models.Message || mongoose.model("Message", messageSchema);
@@ -97,7 +110,7 @@ app.get('/api/get-messages', async (req, res) => {
   }
 });
 
-app.post('/api/send-message', async (req, res) => {
+app.post('/send-message', async (req, res) => {
   try {
     await connectToMongoDB();
     const Message = mongoose.models.Message || mongoose.model("Message", messageSchema);
@@ -111,7 +124,7 @@ app.post('/api/send-message', async (req, res) => {
   }
 });
 
-app.delete('/api/delete-message/:id', async (req, res) => {
+app.delete('/delete-message/:id', async (req, res) => {
   try {
     await connectToMongoDB();
     const Message = mongoose.models.Message || mongoose.model("Message", messageSchema);

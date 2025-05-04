@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataBrainHub API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+    }
+    .endpoint {
+      background-color: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 10px 15px;
+      margin-bottom: 15px;
+    }
+    .method {
+      font-weight: bold;
+      color: #e74c3c;
+    }
+    .url {
+      color: #2980b9;
+    }
+    code {
+      background-color: #f1f1f1;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <h1>DataBrainHub API</h1>
+  <p>Welcome to the DataBrainHub API. Below are the available endpoints:</p>
+  
+  <div class="endpoint">
+    <p><span class="method">GET</span> <span class="url">/</span> - API Home</p>
+    <p>Returns a welcome message.</p>
+  </div>
+  
+  <div class="endpoint">
+    <p><span class="method">POST</span> <span class="url">/login</span> - User Login</p>
+    <p>Authenticates a user.</p>
+    <p>Body: <code>{ "email": "user@example.com", "password": "password" }</code></p>
+  </div>
+  
+  <div class="endpoint">
+    <p><span class="method">GET</span> <span class="url">/me</span> - Get Current User</p>
+    <p>Returns information about the currently logged-in user.</p>
+  </div>
+  
+  <div class="endpoint">
+    <p><span class="method">DELETE</span> <span class="url">/logout</span> - User Logout</p>
+    <p>Logs out the current user.</p>
+  </div>
+  
+  <div class="endpoint">
+    <p><span class="method">GET</span> <span class="url">/get-messages</span> - Get Messages</p>
+    <p>Returns all messages.</p>
+  </div>
+  
+  <div class="endpoint">
+    <p><span class="method">POST</span> <span class="url">/send-message</span> - Send Message</p>
+    <p>Sends a new message.</p>
+    <p>Body: <code>{ "message": "Hello", "user": "username", "time": "12:34" }</code></p>
+  </div>
+  
+  <div class="endpoint">
+    <p><span class="method">DELETE</span> <span class="url">/delete-message/:id</span> - Delete Message</p>
+    <p>Deletes a message by ID.</p>
+  </div>
+  
+  <p>For more information, please refer to the API documentation.</p>
+</body>
+</html>
