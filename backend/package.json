@@ -5,6 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "start": "node node.js",
+    "dev": "nodemon node.js",
+    "vercel-build": "echo 'Building for Vercel'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

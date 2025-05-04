@@ -32,7 +32,7 @@ AWS.config.update({
 
 const mongourl = "mongodb+srv://noorani232004:5vj0vCSBiVhqgPyF@cluster.2btnttn.mongodb.net/";
 
-mongoose.connect(mongourl)   
+mongoose.connect(mongourl)
 .then(()=> {
     console.log("connected to database");
 })
@@ -48,14 +48,14 @@ app.use("/images", express.static("files"));
 
 app.use(cors({
     credentials: true,
-    origin:  ['http://localhost:3000', 'http://localhost:5173']
+    origin:  ['http://localhost:3000', 'http://localhost:5173', 'https://databrainhub-trail-ojq7.vercel.app']
 }));
 
 const pdfSchema1 = mongoose.model("PdfDetails1");
 
 app.use(cors({
     credentials: true,
-    origin:  ['http://localhost:3000', 'http://localhost:5173']
+    origin:  ['http://localhost:3000', 'http://localhost:5173', 'https://databrainhub-trail-ojq7.vercel.app']
 }));
 
 const pdfSchema2 = mongoose.model("PdfDetails2");
@@ -156,28 +156,28 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
 app.post("/upload-1", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema1.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -187,28 +187,28 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-2", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema2.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -218,28 +218,28 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-3", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema3.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -249,28 +249,28 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-4", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema4.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -280,28 +280,28 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-5", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema5.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -311,28 +311,28 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-15", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema15.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -342,28 +342,28 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-6", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema6.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -373,28 +373,28 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-7", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema7.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -404,28 +404,28 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-8", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const semester = req.body.semester;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema8.create({ title: title, pdf: s3Result.Location, semester});
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -435,27 +435,27 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-9", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema9.create({ title: title, pdf: s3Result.Location });
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -464,27 +464,27 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
   });
   app.post("/upload-10", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema10.create({ title: title, pdf: s3Result.Location });
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -494,27 +494,27 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-12", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const title = req.body.title;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL or Key in MongoDB
       await pdfSchema12.create({ title: title, pdf: s3Result.Location });
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -524,39 +524,39 @@ app.post("/upload-1", upload.single("file"), async (req, res) => {
 
   app.post("/upload-14", upload.single("file"), async (req, res) => {
     console.log(req.file);
-  
+
     const { title, semester, batch } = req.body;  // ✅ Accept semester and batch
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `pdfs/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save the S3 file URL + title + semester + batch in MongoDB
-      await pdfSchema14.create({ 
-        title: title, 
+      await pdfSchema14.create({
+        title: title,
         pdf: s3Result.Location,
         semester: semester,   // ✅ Save semester
         batch: batch          // ✅ Save batch
       });
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
       res.status(500).send({ status: "error", message: error.message });
     }
   });
-  
+
 
 app.get("/get-files", async (req, res) => {
     try {
@@ -577,7 +577,7 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-    
+
     app.get("/get-files12", async (req, res) => {
       const semester = req.query.semester; // optional query param
       try {
@@ -600,10 +600,10 @@ app.get("/get-files1", async (req, res) => {
       res.status(500).send({ status: "error", message: error.message });
     }
   });
-    
+
     app.get("/get-files14", async (req, res) => {
       const { semester, batch } = req.query; // ✅ get semester and batch from query params
-    
+
       try {
         const filter = {};
         if (semester) {
@@ -612,15 +612,15 @@ app.get("/get-files1", async (req, res) => {
         if (batch) {
           filter.batch = batch;
         }
-    
+
         const data = await pdfSchema14.find(filter);
         res.send({ status: "ok", data });
       } catch (error) {
         res.status(500).send({ status: "error", message: error.message });
       }
     });
-    
-  
+
+
   app.get("/get-files2", async (req, res) => {
     const semester = req.query.semester; // optional query param
     try {
@@ -630,7 +630,7 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-  }); 
+  });
 
   app.get("/get-files15", async (req, res) => {
     const semester = req.query.semester; // optional query param
@@ -641,7 +641,7 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-  }); 
+  });
 
   app.get("/get-files3", async (req, res) => {
     const semester = req.query.semester; // optional query param
@@ -652,7 +652,7 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-  }); 
+  });
 
   app.get("/get-files4", async (req, res) => {
     const semester = req.query.semester; // optional query param
@@ -663,8 +663,8 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-  }); 
- 
+  });
+
   app.get("/get-files5", async (req, res) => {
     const semester = req.query.semester; // optional query param
     try {
@@ -674,7 +674,7 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-  }); 
+  });
 
 
   app.get("/get-files6", async (req, res) => {
@@ -686,7 +686,7 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-  }); 
+  });
 
   app.get("/get-files7", async (req, res) => {
     const semester = req.query.semester; // optional query param
@@ -697,7 +697,7 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-  }); 
+  });
 
   app.get("/get-files8", async (req, res) => {
     const semester = req.query.semester; // optional query param
@@ -708,7 +708,7 @@ app.get("/get-files1", async (req, res) => {
     } catch (error) {
       res.status(500).send({ status: "error", message: error.message });
     }
-  }); 
+  });
 
 app.get("/get-files9", async (req, res) => {
     try {
@@ -879,31 +879,31 @@ const imageSchema = mongoose.model("ImageDetails");
 
 app.post("/upload-image", upload.single("file"), async (req, res) => {
     console.log("Received file:", req.file);
-  
+
     const { title, description } = req.body;
     const file = req.file;
-  
+
     if (!file) {
       return res.status(400).send({ status: "error", message: "No file uploaded" });
     }
-  
+
     const s3Params = {
       Bucket: "data-brain-hub",
       Key: `images/${uuidv4()}-${file.originalname}`,
       Body: file.buffer,
       ContentType: file.mimetype,
     };
-  
+
     try {
       const s3Result = await s3.upload(s3Params).promise();
-  
+
       // Save title, description, and S3 URL to MongoDB
       await imageSchema.create({
         title: title,
         description: description,
         image: s3Result.Location, // Save full S3 URL
       });
-  
+
       res.send({ status: "ok", url: s3Result.Location });
     } catch (error) {
       console.error("S3 Upload Error:", error);
@@ -1031,10 +1031,17 @@ app.get("/", async (req, res) => {
     res.send("success!!!");
 });
 
-server.listen(5000, () => {
-  console.log('Socket server running on port 5000');
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  server.listen(5000, () => {
+    console.log('Socket server running on port 5000');
+  });
 
-app.listen(process.env.APP_PORT, () => {
+  app.listen(process.env.APP_PORT || 5173, () => {
     console.log('server up and running...');
-});
+  });
+}
+
+// Export the Express app and Socket.io server for Vercel
+export default app;
+export { server };
