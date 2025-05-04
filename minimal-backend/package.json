@@ -1,0 +1,13 @@
+{
+  "name": "minimal-backend",
+  "version": "1.0.0",
+  "description": "Minimal backend for DataBrainHub",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}

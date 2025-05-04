@@ -20,9 +20,12 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Configure middleware
+// Allow all origins in development, or specific origins in production
 app.use(cors({
   credentials: true,
-  origin: ['https://databrainhub-trail-ojq7.vercel.app', 'http://localhost:3000', 'http://localhost:5173']
+  origin: '*', // Allow all origins temporarily for testing
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
