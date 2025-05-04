@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-axios.defaults.baseURL = 'http://localhost:5000';
+import { API_URL } from "../config/api";
+
+axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 
 const initialState = {
@@ -13,7 +15,7 @@ const initialState = {
 
 export const LoginUser = createAsyncThunk("user/loginUser", async(user, thunkAPI) => {
      try{
-        const response = await axios.post("http://localhost:5000/login",{
+        const response = await axios.post(`${API_URL}/login`,{
             email: user.email,
             password: user.password
         });
@@ -28,7 +30,7 @@ export const LoginUser = createAsyncThunk("user/loginUser", async(user, thunkAPI
 
 export const getMe = createAsyncThunk("user/getMe", async(_, thunkAPI) => {
     try{
-       const response = await axios.get("http://localhost:5000/me");
+       const response = await axios.get(`${API_URL}/me`);
        return response.data;
     } catch(error) {
        if(error.response){
@@ -39,7 +41,7 @@ export const getMe = createAsyncThunk("user/getMe", async(_, thunkAPI) => {
 });
 
 export const LogOut = createAsyncThunk("user/LogOut", async() => {
-        await axios.delete("http://localhost:5000/logout");
+        await axios.delete(`${API_URL}/logout`);
 });
 
 export const authSlice =  createSlice({
@@ -62,7 +64,7 @@ export const authSlice =  createSlice({
              state.isLoading = false;
              state.isError = true;
              state.message= action.payload;
-           
+
          })
 
          //get user logi
@@ -79,7 +81,7 @@ export const authSlice =  createSlice({
              state.isLoading = false;
              state.isError = true;
              state.message= action.payload;
-           
+
          })
     }
 });

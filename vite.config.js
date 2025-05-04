@@ -51,6 +51,9 @@ export default defineConfig({
   },
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    // Make environment variables available in the client-side code
+    'process.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL),
+    'process.env.VITE_SOCKET_URL': JSON.stringify(process.env.VITE_SOCKET_URL),
   },
 });
 

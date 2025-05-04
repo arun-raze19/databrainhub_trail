@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import axios from "axios";
+import { API_URL, SOCKET_URL } from "../config/api";
 
-const socket = io("http://localhost:5000");
+const socket = io(SOCKET_URL);
 
 const ClassBridge = () => {
   const [username, setUserName] = useState("");
@@ -54,7 +55,7 @@ const ClassBridge = () => {
 
   const getMessage = async () => {
     try {
-      const result = await axios.get("http://localhost:5000/get-messages");
+      const result = await axios.get(`${API_URL}/get-messages`);
       setMessages(result.data.data);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -86,7 +87,7 @@ const ClassBridge = () => {
       if (!messageId) return; // Null check
 
       // Send request to delete message from the server
-      await axios.delete(`http://localhost:5000/delete-message/${messageId}`);
+      await axios.delete(`${API_URL}/delete-message/${messageId}`);
 
       // Update local state to remove the deleted message
       const updatedMessages = messages.filter(
@@ -106,7 +107,7 @@ const ClassBridge = () => {
 
   const handleStartChat = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/me");
+      const response = await axios.get(`${API_URL}/me`);
       const user = response.data;
       if (user.name === username) {
         setChatActive(true);
