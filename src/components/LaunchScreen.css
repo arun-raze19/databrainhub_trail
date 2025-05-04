@@ -1,0 +1,85 @@
+.launch-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #0b0b12;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Curtain styles */
+.curtain {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transition: transform 2s ease;
+}
+
+.curtain-left {
+  left: 0;
+  background-image: url('/curtain-right.jpg');
+}
+
+.curtain-right {
+  right: 0;
+  background-image: url('/curtain-left.jpg');
+}
+
+/* Welcome text */
+.welcome-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeIn 0.6s ease 0.2s forwards;
+}
+
+.welcome-text h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.welcome-text span {
+  color: #ff3e3e;
+}
+
+.welcome-text p {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+/* Text fade-in */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+/* Fade out effect for text */
+.fade-out {
+  animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -40%) scale(0.95);
+  }
+}
+
+
+/* Curtain open when class is added (in JS if needed) */
+.launch-container.clicked .curtain-left {
+  transform: translateX(-100%);
+}
+
+.launch-container.clicked .curtain-right {
+  transform: translateX(100%);
+}
