@@ -20,7 +20,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
-        fallback: path.resolve(__dirname, 'static-fallback.html'),
       },
       output: {
         manualChunks: {
