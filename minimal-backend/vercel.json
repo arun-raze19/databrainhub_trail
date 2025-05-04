@@ -6,19 +6,11 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
-    {
-      "src": "/api/login",
-      "dest": "/api/login.js"
-    },
-    {
-      "src": "/api/me",
-      "dest": "/api/me.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
-    }
+  "rewrites": [
+    { "source": "/api/login", "destination": "/api/login.js" },
+    { "source": "/api/me", "destination": "/api/me.js" },
+    { "source": "/api/ping", "destination": "/api/ping.js" },
+    { "source": "/(.*)", "destination": "/api/index.js" }
   ],
   "headers": [
     {
