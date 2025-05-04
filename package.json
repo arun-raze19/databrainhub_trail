@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp static-fallback.html dist/ && cp -r public/* dist/",
+    "build:vercel": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "react-scripts start",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite --port 3000",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@google/generative-ai": "^0.19.0",

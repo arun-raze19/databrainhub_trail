@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation,Route, Routes } from "react-router-dom";
+import { useLocation, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Book1 from "./components/Book1";
@@ -46,17 +46,59 @@ import Topper4 from './components/Topper4';
 import Annual from './components/Bianual';
 import Annualstudent from './components/Binalstudent';
 import LaunchScreen from './components/LaunchScreen';
+import FallbackContent from './components/FallbackContent';
+import { useMockData } from './services/mockDataService';
 
-const App = () => { 
-  const [showLaunchScreen, setShowLaunchScreen] = useState(true); // New state
+const App = () => {
+  const [showLaunchScreen, setShowLaunchScreen] = useState(true);
+  const [apiError, setApiError] = useState(false);
 
+  // Check if we're using mock data
+  const usingMockData = useMockData;
+
+  // Effect to simulate API check
+  useEffect(() => {
+    // If we're using mock data, we don't need to check the API
+    if (usingMockData) {
+      return;
+    }
+
+    // Simple function to check if the API is available
+    const checkApiAvailability = async () => {
+      try {
+        const response = await fetch(import.meta.env.VITE_API_URL, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          // Short timeout to avoid long waiting times
+          signal: AbortSignal.timeout(5000)
+        });
+
+        if (!response.ok) {
+          throw new Error('API not available');
+        }
+
+        setApiError(false);
+      } catch (error) {
+        console.error('API Error:', error);
+        setApiError(true);
+      }
+    };
+
+    checkApiAvailability();
+  }, [usingMockData]);
+
+  // Show launch screen
   if (showLaunchScreen) {
     return <LaunchScreen onLaunch={() => setShowLaunchScreen(false)} />;
   }
 
-  
+  // Show fallback content if API is not available and we're not using mock data
+  if (apiError && !usingMockData) {
+    return <FallbackContent />;
+  }
+
   return (
-   
+
     <>
       <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
         <Routes>
@@ -73,7 +115,7 @@ const App = () => {
                 <Pricing />
                 <Roadmap />
                 <Footer />
-                
+
               </>
             }
           />
@@ -146,7 +188,7 @@ const App = () => {
               </>
             }
           />
-          
+
           <Route
             path="/thirdyear"
             element={
@@ -411,7 +453,7 @@ const App = () => {
               </>
             }
           />
-          
+
           <Route
             path="/classbridge"
             element={
@@ -429,7 +471,7 @@ const App = () => {
               <>
                 <Header />
                 <Contentarea /> {/* Component for First Year Student */}
-                
+
                 <Footer /> {/* Optional: Include or exclude footer */}
               </>
             }
@@ -467,8 +509,8 @@ const App = () => {
               </>
             }
           />
-            
-        
+
+
           {/* Route for Login page */}
           <Route
             path="/login"
@@ -481,7 +523,7 @@ const App = () => {
         </Routes>
       </div>
 
-       
+
 
       {/* Button gradient is shown on all pages */}
       <ButtonGradient />

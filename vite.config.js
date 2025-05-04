@@ -13,47 +13,38 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true,
-    minify: false,
+    // Enable minification for production
+    minify: true,
+    // Copy static files to the output directory
+    copyPublicDir: true,
     rollupOptions: {
-      external: ['engine.io-client', 'socket.io-client'],
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        fallback: path.resolve(__dirname, 'static-fallback.html'),
+      },
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
         },
-        globals: {
-          'engine.io-client': 'eio',
-          'socket.io-client': 'io'
-        },
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'assets/[name][extname]';
-          return 'assets/[name]-[hash][extname]';
-        },
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
       },
     },
-    chunkSizeWarningLimit: 1000,
   },
+  // Simplified optimizeDeps
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'react-redux', '@reduxjs/toolkit'],
-    exclude: ['@google/generative-ai']
   },
   server: {
     port: 3000,
     open: true,
-    historyApiFallback: true,
   },
   preview: {
     port: 4173,
-    strictPort: true,
-    host: true,
   },
   define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    // Make environment variables available in the client-side code
-    'process.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL),
-    'process.env.VITE_SOCKET_URL': JSON.stringify(process.env.VITE_SOCKET_URL),
+    // Provide default values for environment variables
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+    'process.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'https://mock-api.example.com'),
+    'process.env.VITE_SOCKET_URL': JSON.stringify(process.env.VITE_SOCKET_URL || 'https://mock-api.example.com'),
   },
 });
 

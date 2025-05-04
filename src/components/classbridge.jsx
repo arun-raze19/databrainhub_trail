@@ -2,8 +2,21 @@ import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import { API_URL, SOCKET_URL } from "../config/api";
+import { useMockData, mockGetMessages, mockSendMessage, mockDeleteMessage, mockGetMe, mockMessages } from "../services/mockDataService";
 
-const socket = io(SOCKET_URL);
+// Only create socket connection if not using mock data
+const socket = useMockData ? {
+  on: () => {},
+  off: () => {},
+  emit: (event, data) => {
+    // Simulate socket behavior with mock data
+    if (event === "send-message") {
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent("mock-message-received", { detail: data }));
+      }, 300);
+    }
+  }
+} : io(SOCKET_URL);
 
 const ClassBridge = () => {
   const [username, setUserName] = useState("");
@@ -28,17 +41,37 @@ const ClassBridge = () => {
   useEffect(() => {
     getMessage();
 
-    socket.on("received-message", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-      if (messageContainerRef.current) {
-        messageContainerRef.current.scrollTop =
-          messageContainerRef.current.scrollHeight;
-      }
-    });
+    // Handle real socket events or mock events
+    if (useMockData) {
+      // Set up event listener for mock socket events
+      const handleMockMessage = (event) => {
+        const message = event.detail;
+        setMessages((prevMessages) => [...prevMessages, message]);
+        if (messageContainerRef.current) {
+          messageContainerRef.current.scrollTop =
+            messageContainerRef.current.scrollHeight;
+        }
+      };
 
-    return () => {
-      socket.off("received-message");
-    };
+      window.addEventListener("mock-message-received", handleMockMessage);
+
+      return () => {
+        window.removeEventListener("mock-message-received", handleMockMessage);
+      };
+    } else {
+      // Use real socket.io
+      socket.on("received-message", (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+        if (messageContainerRef.current) {
+          messageContainerRef.current.scrollTop =
+            messageContainerRef.current.scrollHeight;
+        }
+      });
+
+      return () => {
+        socket.off("received-message");
+      };
+    }
   }, []);
 
   useEffect(() => {
@@ -55,10 +88,21 @@ const ClassBridge = () => {
 
   const getMessage = async () => {
     try {
-      const result = await axios.get(`${API_URL}/get-messages`);
-      setMessages(result.data.data);
+      if (useMockData) {
+        // Use mock data
+        const result = await mockGetMessages();
+        setMessages(result.data);
+      } else {
+        // Use real API
+        const result = await axios.get(`${API_URL}/get-messages`);
+        setMessages(result.data.data);
+      }
     } catch (error) {
       console.error("Error fetching messages:", error);
+      // If there's an error, use mock data as fallback
+      if (useMockData) {
+        setMessages(mockMessages);
+      }
     }
   };
 
@@ -86,8 +130,13 @@ const ClassBridge = () => {
 
       if (!messageId) return; // Null check
 
-      // Send request to delete message from the server
-      await axios.delete(`${API_URL}/delete-message/${messageId}`);
+      if (useMockData) {
+        // Use mock data
+        await mockDeleteMessage(messageId);
+      } else {
+        // Send request to delete message from the server
+        await axios.delete(`${API_URL}/delete-message/${messageId}`);
+      }
 
       // Update local state to remove the deleted message
       const updatedMessages = messages.filter(
@@ -107,16 +156,28 @@ const ClassBridge = () => {
 
   const handleStartChat = async () => {
     try {
-      const response = await axios.get(`${API_URL}/me`);
-      const user = response.data;
-      if (user.name === username) {
+      if (useMockData) {
+        // In mock mode, just accept any username
         setChatActive(true);
         getMessage(); // Fetch messages after setting chat as active
       } else {
-        alert("Access denied. Please enter a valid username.");
+        // Use real API
+        const response = await axios.get(`${API_URL}/me`);
+        const user = response.data;
+        if (user.name === username) {
+          setChatActive(true);
+          getMessage(); // Fetch messages after setting chat as active
+        } else {
+          alert("Access denied. Please enter a valid username.");
+        }
       }
     } catch (error) {
       console.error("Error checking username:", error);
+      // If there's an error, allow login in mock mode
+      if (useMockData) {
+        setChatActive(true);
+        getMessage();
+      }
     }
   };
 
